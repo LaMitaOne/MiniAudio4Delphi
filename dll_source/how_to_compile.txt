@@ -1,0 +1,52 @@
+## 🛠️ How to Compile the miniaudio DLL
+
+Since `miniaudio` is a single-file C header library, it doesn't provide an official DLL. To use it within Delphi, we use a small C bridge file (`miniaudio.c`). This file exports all standard functions and adds crucial helper functions (`ma_engine_sizeof`, `ma_sound_sizeof`) so Delphi can safely allocate the correct structure sizes.
+
+Follow these steps to recompile the 64-bit or 32-bit Windows DLL yourself using **Visual Studio**:
+
+### 1. Prerequisites
+1. Open your Windows Start Menu.
+2. Search for the correct Visual Studio command prompt depending on your Delphi target architecture:
+   * **For Windows 64-Bit (Win64):** Open `x64 Native Tools Command Prompt for VS`
+   * **For Windows 32-Bit (Win32):** Open `x86 Native Tools Command Prompt for VS`
+3. Navigate to your source directory (e.g., `cd D:\miniaudio_source`).
+
+### 2. File Requirements
+Ensure you have the following two files in your compilation directory:
+* `miniaudio.h` (The original header from mackron/miniaudio)
+* `miniaudio.c` (The export wrapper containing the `sizeof` bridges)
+
+The `miniaudio.c` should look exactly like this:
+```c
+#include <windows.h>
+
+// Force clean C-style exports without C++ Name Mangling
+#define MA_API __declspec(dllexport)
+
+#define MINIAUDIO_IMPLEMENTATION
+#include "miniaudio.h"
+
+// Delphi bridge helpers for struct allocations
+MA_API size_t ma_engine_sizeof() { return sizeof(ma_engine); }
+MA_API size_t ma_sound_sizeof()  { return sizeof(ma_sound); }
+```
+
+### 3. Compilation Commands
+
+Run the corresponding command inside your Visual Studio Command Prompt to generate the DLL:
+
+#### 🚀 Build for Windows 64-Bit (x64)
+```cmd
+cl.exe /TC /LD miniaudio.c /O2 /Fe:miniaudio.dll /link user32.lib advapi32.lib shell32.lib ole32.lib winmm.lib
+```
+
+#### 🕹️ Build for Windows 32-Bit (x86)
+```cmd
+cl.exe /TC /LD miniaudio.c /O2 /Fe:miniaudio.dll /link user32.lib advapi32.lib shell32.lib ole32.lib winmm.lib
+```
+
+### 💡 Why these flags matter
+* `/TC`: Forces the compiler to treat the file as **pure C code**. This completely prevents C++ "Name Mangling", ensuring Delphi can find the clean function names (like `ma_engine_init`) without weird symbols.
+* `/LD`: Instructs the MSVC compiler to output a `.dll` instead of an executable.
+* `/O2`: Enables maximum speed optimization for low-latency audio processing.
+* `/link ...`: Safely passes the required native Windows subsystem libraries (`winmm.lib`, `ole32.lib` etc.) directly to the linker.
