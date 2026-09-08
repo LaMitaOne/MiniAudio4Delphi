@@ -21,7 +21,7 @@ Just download, run the EXE, and check the sample project to see how it works!
 To use it in your own projects: Place MiniAudio4Delphi.pas in your library path and copy the miniaudio.dll next to your .exe.     
 
 🛠️ Building the DLL    
-The miniaudio.dll is included(64 bit), but if you want to recompile it yourself (e.g., for Win32 or updates), I've included the original miniaudio.h, miniaudio.c, and a how_to_compile.txt in the source folder. 4 hours till i had a working full dll... ^^            
+The miniaudio.dll is included(64 bit), but if you want to recompile it yourself (e.g., for Win32 or updates), I've included the original miniaudio.h, miniaudio.c, and a how_to_compile.txt in the source folder. 4 hours till i had a working full dll... ^^ (AI wanted to give up and use raylib audio after 2h already :P)           
 
 ⚠️ Status      
 This wrapper is fully compiled and the DLL is 100% complete (exporting over 1100 functions). The Delphi wrapper currently covers the most critical High-Level, 3D, Decoder, and Node functions. Feel free to wrap the remaining low-level filters!   
