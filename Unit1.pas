@@ -7,12 +7,12 @@ unit Unit1;
  *  It shows how to dynamically allocate memory for the engine and sounds,
  *  how to initialize them, and how to play audio files with basic panning.
  *==============================================================================}
-
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, MiniAudio4Delphi;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, MiniAudio4Delphi;
 
 type
   TForm1 = class(TForm)
@@ -36,7 +36,6 @@ var
   Form1: TForm1;
 
 implementation
-
 {$R *.dfm}
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -44,12 +43,10 @@ var
   Result: Integer;
 begin
   Caption := 'MiniAudio Wrapper Test';
-
   // 1. Dynamically allocate the exact memory size required by the C structs
   // This avoids porting massive internal C headers to Delphi.
   GetMem(Engine, ma_engine_sizeof());
   GetMem(Sound, ma_sound_sizeof());
-
   // 2. Initialize the Audio Engine (Pass the allocated memory directly)
   Result := ma_engine_init(nil, Engine);
   if Result <> MA_SUCCESS then
@@ -61,11 +58,9 @@ begin
   // Clean up before exiting
   if Sound <> nil then
     ma_sound_uninit(Sound);
-
   if Engine <> nil then
   begin
     ma_engine_uninit(Engine);
-
     // Free the dynamically allocated memory
     FreeMem(Sound);
     FreeMem(Engine);
@@ -78,16 +73,14 @@ var
   FilePath: string;
 begin
   // Note: Adjust this path to point to a valid audio file on your system
-  FilePath := 'D:\test.wav';
+  FilePath := 'test.wav';
   if not FileExists(FilePath) then
   begin
     ShowMessage('test.wav not found!');
     Exit;
   end;
-
   // Important: Uninit the previous sound before loading a new one
   ma_sound_uninit(Sound);
-
   // Load sound from file
   Result := ma_sound_init_from_file(Engine, PAnsiChar(AnsiString(FilePath)), 0, nil, nil, Sound);
   if Result <> MA_SUCCESS then
@@ -95,13 +88,10 @@ begin
     ShowMessage('Could not load sound! Error Code: ' + IntToStr(Result));
     Exit;
   end;
-
   // Set Panning (-1.0 = Left, 0.0 = Center, 1.0 = Right)
   ma_sound_set_pan(Sound, Pan);
-
   // Set Volume to 100%
   ma_sound_set_volume(Sound, 1.0);
-
   // Play!
   ma_sound_start(Sound);
 end;
@@ -122,3 +112,4 @@ begin
 end;
 
 end.
+
