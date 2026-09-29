@@ -3,7 +3,7 @@ unit MiniAudio4Delphi;
 {==============================================================================*
  *  MiniAudio4Delphi - Complete Wrapper for MiniAudio
  *------------------------------------------------------------------------------
- *  Version: 0.1 (Initial Release)
+ *  Version: 0.2
  *
  *  This unit wraps the full high-level API exported by the miniaudio.dll.
  *  It provides Delphi access to Engine, Sounds, 3D Spatialization, Groups,
