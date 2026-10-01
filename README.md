@@ -4,6 +4,8 @@ A modern, high-performance, fully-featured audio wrapper for Delphi, powered by 
 🎧 MiniAudio4Delphi v0.2    
     
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/LaMitaOne/MiniAudio4Delphi)    
+     
+https://github.com/user-attachments/assets/8d18dbb1-6633-43d0-86b6-b19ab24330bc
       
 MiniAudio4Delphi brings modern 3D spatial audio (HRTF), MP3/WAV/FLAC decoding, custom effects, and node-based audio routing straight to your Delphi applications — with zero external dependencies besides a single DLL.      
       
